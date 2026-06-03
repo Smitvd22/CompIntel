@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  compensationEntries CompensationEntry[]
+  savedCompanies      SavedCompany[]
+  savedComparisons    SavedComparison[]
+
+  @@map("users")
+}
+
+model Company {
+  id             String   @id @default(cuid())
+  name           String
+  normalizedName String   @unique
+  industry       String
+  description    String
+  logoUrl        String?
+  website        String?
+  founded        Int?
+  headquarters   String?
+  employeeCount  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  compensationEntries CompensationEntry[]
+  savedByUsers        SavedCompany[]
+
+  @@map("companies")
+}
+
+model Role {
+  id              String   @id @default(cuid())
+  title           String
+  normalizedTitle String   @unique
+  category        String?
+  createdAt       DateTime @default(now())
+
+  compensationEntries CompensationEntry[]
+
+  @@map("roles")
+}
+
+model Level {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  rank      Int      @unique
+  createdAt DateTime @default(now())
+
+  compensationEntries CompensationEntry[]
+
+  @@map("levels")
+}
+
+model Location {
+  id        String   @id @default(cuid())
+  city      String
+  state     String?
+  country   String
+  createdAt DateTime @default(now())
+
+  compensationEntries CompensationEntry[]
+
+  @@unique([city, country])
+  @@map("locations")
+}
+
+model CompensationEntry {
+  id            String   @id @default(cuid())
+  companyId     String
+  roleId        String
+  levelId       String
+  locationId    String
+  baseSalary    Float
+  bonus         Float    @default(0)
+  stock         Float    @default(0)
+  yearsOfExp    Int?
+  submittedById String?
+  verified      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  role        Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  level       Level    @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  submittedBy User?    @relation(fields: [submittedById], references: [id], onDelete: SetNull)
+
+  @@map("compensation_entries")
+}
+
+model SavedCompany {
+  id        String   @id @default(cuid())
+  userId    String
+  companyId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@map("saved_companies")
+}
+
+model SavedComparison {
+  id       String   @id @default(cuid())
+  userId   String
+  title    String
+  entryIds Json
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("saved_comparisons")
+}
