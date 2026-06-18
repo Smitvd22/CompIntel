@@ -4,6 +4,9 @@
 
 CompIntel is a production-grade, full-stack compensation intelligence platform inspired by Levels.fyi. It helps users understand compensation across companies using **levels, roles, locations**, and **compensation structures**.
 
+**🌍 Live Demo:** [https://comp-intel-site.vercel.app/](https://comp-intel-site.vercel.app/)  
+**📦 Repository:** [https://github.com/Smitvd22/CompIntel](https://github.com/Smitvd22/CompIntel)
+
 **Core Philosophy: Levels matter more than job titles.**
 
 ---
