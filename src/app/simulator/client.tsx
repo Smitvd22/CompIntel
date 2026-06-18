@@ -122,7 +122,9 @@ export function SimulatorClient() {
                       onValueChange={(v) => setForm((p) => ({ ...p, companyId: v as string }))}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select company" />
+                        <SelectValue placeholder="Select company">
+                          {filters.companies.find((c) => c.id === form.companyId)?.name}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {filters.companies.map((c) => (
@@ -139,7 +141,9 @@ export function SimulatorClient() {
                       onValueChange={(v) => setForm((p) => ({ ...p, levelId: v as string }))}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select level" />
+                        <SelectValue placeholder="Select level">
+                          {filters.levels.find((l) => l.id === form.levelId)?.name}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {filters.levels.map((l) => (
@@ -156,7 +160,9 @@ export function SimulatorClient() {
                       onValueChange={(v) => setForm((p) => ({ ...p, locationId: v as string }))}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select location" />
+                        <SelectValue placeholder="Select location">
+                          {filters.locations.find((l) => l.id === form.locationId)?.city}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {filters.locations.map((l) => (
@@ -173,7 +179,9 @@ export function SimulatorClient() {
                       onValueChange={(v) => setForm((p) => ({ ...p, roleId: v === "any" ? "" : v as string }))}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Any role" />
+                        <SelectValue placeholder="Any role">
+                          {form.roleId && form.roleId !== "any" ? filters.roles.find((r) => r.id === form.roleId)?.title : "Any role"}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="any">Any Role</SelectItem>

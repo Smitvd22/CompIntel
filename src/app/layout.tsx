@@ -44,6 +44,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${geistMono.variable} dark`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col antialiased">
         <Providers>

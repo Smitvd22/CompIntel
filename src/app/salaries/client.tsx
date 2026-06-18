@@ -228,7 +228,9 @@ export function SalaryExplorerClient() {
               }}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Company" />
+                <SelectValue placeholder="Company">
+                  {selectedFilters.companyId ? filters.companies.find((c) => c.id === selectedFilters.companyId)?.name : "Company"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Companies</SelectItem>
@@ -246,7 +248,9 @@ export function SalaryExplorerClient() {
               }}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Role" />
+                <SelectValue placeholder="Role">
+                  {selectedFilters.roleId ? filters.roles.find((r) => r.id === selectedFilters.roleId)?.title : "Role"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Roles</SelectItem>
@@ -264,7 +268,9 @@ export function SalaryExplorerClient() {
               }}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Level" />
+                <SelectValue placeholder="Level">
+                  {selectedFilters.levelId ? filters.levels.find((l) => l.id === selectedFilters.levelId)?.name : "Level"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Levels</SelectItem>
@@ -282,7 +288,12 @@ export function SalaryExplorerClient() {
               }}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Location" />
+                <SelectValue placeholder="Location">
+                  {selectedFilters.locationId ? (() => {
+                    const loc = filters.locations.find((l) => l.id === selectedFilters.locationId);
+                    return loc ? `${loc.city}, ${loc.country}` : "Location";
+                  })() : "Location"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Locations</SelectItem>
@@ -297,7 +308,15 @@ export function SalaryExplorerClient() {
               onValueChange={(v) => setSelectedFilters((prev) => ({ ...prev, sortBy: v as string }))}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Sort by" />
+                <SelectValue placeholder="Sort by">
+                  {{
+                    totalCompensation: "Total Comp",
+                    baseSalary: "Base Salary",
+                    bonus: "Bonus",
+                    stock: "Stock",
+                    createdAt: "Date Added",
+                  }[selectedFilters.sortBy] || "Sort by"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="totalCompensation">Total Comp</SelectItem>
@@ -313,7 +332,12 @@ export function SalaryExplorerClient() {
               onValueChange={(v) => setSelectedFilters((prev) => ({ ...prev, sortOrder: v as string }))}
             >
               <SelectTrigger className="h-9 text-sm">
-                <SelectValue placeholder="Order" />
+                <SelectValue placeholder="Order">
+                  {{
+                    desc: "Highest First",
+                    asc: "Lowest First",
+                  }[selectedFilters.sortOrder] || "Order"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="desc">Highest First</SelectItem>

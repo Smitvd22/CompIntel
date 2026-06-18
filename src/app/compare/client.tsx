@@ -214,7 +214,9 @@ export function CompareClient() {
                 onValueChange={(v) => setAddFilter((p) => ({ ...p, companyId: v as string }))}
               >
                 <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select company" />
+                  <SelectValue placeholder="Select company">
+                    {filters.companies.find((c) => c.id === addFilter.companyId)?.name}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {filters.companies.map((c) => (
@@ -228,7 +230,9 @@ export function CompareClient() {
                 onValueChange={(v) => setAddFilter((p) => ({ ...p, levelId: v as string }))}
               >
                 <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="Level" />
+                  <SelectValue placeholder="Level">
+                    {filters.levels.find((l) => l.id === addFilter.levelId)?.name}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {filters.levels.map((l) => (
